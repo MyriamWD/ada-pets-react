@@ -8,7 +8,16 @@ import speciesEmoji from '../speciesEmoji';
 
 
 const PetCard = (props) => {
-  const { id, name, species, about, location } = props;
+  const { id, name, species, about, location} = props;
+
+  const onSelectClick =() => {
+    props.onSelectPetCallBack(props)
+  }
+
+  const onCloseClick = () => {
+    props.onCloseClickCallBack(props)
+  }
+
   return (
     <div className="card pet-card">
 
@@ -17,15 +26,15 @@ const PetCard = (props) => {
       { speciesEmoji(species) } {id} - {name} 
         <button 
           className="btn btn-primary pet-card--select-pet-btn"
-          >
+          onClick={onSelectClick}>
             Select
         </button>
         <button 
           type="button" 
           className="btn btn-danger pet-card--close-btn" 
           aria-label="Close"
-        >
-          Close
+          onClick={onCloseClick}>
+          Closes
         </button>
       </section>
       <section className="pet-card--body">
@@ -44,6 +53,7 @@ PetCard.propTypes = {
   species: PropTypes.string.isRequired, 
   about: PropTypes.string, 
   location: PropTypes.string,
+  onSelectPet: PropTypes.func,
 }
     
 export default PetCard;

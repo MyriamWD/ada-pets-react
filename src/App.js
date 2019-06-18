@@ -16,8 +16,49 @@ class App extends Component {
 
     this.state = {
       petList: pets,
-      currentPet: undefined,
+      currentPet: {
+        about: '',
+        images: [''],
+        location: '',
+        name: '',
+        species: '',},
     };
+  }
+
+  onSelectPet = (pet) => {
+    console.log(pet);
+
+     this.setState(
+       { currentPet: pet}
+     );
+    
+  }
+
+  onRemovePet = (pet) => {
+    
+    const toDelete = this.state.petList.find((v) => v["id"] === pet.id 
+    )
+
+    const indexToDelete= this.state.petList.indexOf(toDelete)
+  
+    const pets = this.state.petList
+    pets.splice(indexToDelete, 1)
+
+    this.setState(
+      { pets}
+    );
+    
+  }
+
+  addPet = (newPet) => {
+    
+    newPet.id = this.state.petList.length + 1
+    const allPets = this.state.petList
+    allPets.push(newPet)
+    this.setState (
+      allPets,
+    )
+
   }
 
 
@@ -26,6 +67,7 @@ class App extends Component {
   render() {
     const { currentPet } = this.state;
     
+
     return (
       <main className="App">
         <header className="app-header">
@@ -35,13 +77,17 @@ class App extends Component {
           { /* Wave 4:  Place to add the SearchBar component */ }
           <SearchBar />
         </section>
-          { /* Wave 2:  Where Pet Details should appear */ }
+
+          < PetDetails currentPet={currentPet}/>
+
         <section className="pet-list-wrapper">
-          { /* Wave 1:  Where PetList should appear */ }
+          <PetList pets={this.state.petList} onSelectPetCallBack={this.onSelectPet} onCloseClickCallBack={this.onRemovePet}/>
         </section>
+
         <section className="new-pet-form-wrapper">
-          { /* Wave 3:  Where NewPetForm should appear */ }
+          <NewPetForm addPetCallback={this.addPet}/>
         </section>
+
       </main>
     );
   }
